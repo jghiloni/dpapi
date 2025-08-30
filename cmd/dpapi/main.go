@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/billgraziano/dpapi"
+	"github.com/jghiloni/dpapi"
 )
 
 // go run .\cmd\dpapi\main.go -hex 01020304 -string junk

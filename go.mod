@@ -1,5 +1,5 @@
-module github.com/billgraziano/dpapi
+module github.com/jghiloni/dpapi
 
-go 1.21
+go 1.23.0
 
-require golang.org/x/sys v0.29.0
+require golang.org/x/sys v0.35.0
