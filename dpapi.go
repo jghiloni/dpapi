@@ -1,3 +1,5 @@
+//go:build windows
+
 package dpapi
 
 import (
@@ -179,4 +181,28 @@ func DecryptEntropy(data, entropy string) (string, error) {
 		return "", fmt.Errorf("decryptbytes: %w", err)
 	}
 	return string(b), nil
+}
+
+func DecryptMachineLocal(data string) (string, error) {
+	return DecryptEntropyMachineLocal(data, "")
+}
+
+func DecryptEntropyMachineLocal(data, entropy string) (string, error) {
+	raw, err := base64.StdEncoding.DecodeString(data)
+	if err != nil {
+		return "", fmt.Errorf("DecryptEntropyMachineLocal: %w", err)
+	}
+	b, err := decryptBytes(raw, []byte(entropy), cryptProtectUIForbidden|cryptProtectLocalMachine)
+	if err != nil {
+		return "", fmt.Errorf("decryptbytes: %w", err)
+	}
+	return string(b), nil
+}
+
+func DecryptBytesLocalMachine(data []byte) ([]byte, error) {
+	return decryptBytes(data, nil, cryptProtectLocalMachine|cryptProtectUIForbidden)
+}
+
+func DecryptBytesEntropyLocalMachine(data, entropy []byte) ([]byte, error) {
+	return decryptBytes(data, entropy, cryptProtectUIForbidden|cryptProtectLocalMachine)
 }
